@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/lib/supabase";
 import { useCategories } from "@/hooks/useCategories";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -39,7 +40,6 @@ export function ManualEntryModal({ children, onTransactionCreated }: ManualEntry
     setError(null);
 
     try {
-      const { supabase } = await import('@/lib/supabase');
       const { data: { user } } = await supabase.auth.getUser();
       
       if (!user) throw new Error('Usuário não autenticado');
