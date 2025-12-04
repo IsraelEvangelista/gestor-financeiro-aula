@@ -2,12 +2,18 @@ import { ArrowUpRight, ArrowDownRight, DollarSign, Wallet, CreditCard, Filter, L
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { OverviewChart } from "./OverviewChart";
 import { CategoryChart } from "./CategoryChart";
-import { useDashboardData } from "@/hooks/useDashboardData";
+import { useSaldoTotal } from "@/hooks/useSaldoTotal";
+import { useMonthlyTransactions } from "@/hooks/useMonthlyTransactions";
+import { useRecentTransactions } from "@/hooks/useRecentTransactions";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 export default function DashboardPage() {
-  const { metrics, loading, error } = useDashboardData();
+  const { saldoTotal, loading: loadingSaldo, error: errorSaldo } = useSaldoTotal();
+  const { transactions: monthlyTransactions, loading: loadingMonthly, error: errorMonthly } = useMonthlyTransactions();
+  const { transactions: recentTransactions, loading: loadingRecent, error: errorRecent } = useRecentTransactions();
+  const loading = loadingSaldo || loadingMonthly || loadingRecent;
+  const error = errorSaldo || errorMonthly || errorRecent;
 
   if (loading) {
     return (
@@ -55,7 +61,7 @@ export default function DashboardPage() {
             <Wallet className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(metrics.saldoTotal)}</div>
+            <div className="text-2xl font-bold">{formatCurrency(saldoTotal)}</div>
             <p className="text-xs text-muted-foreground flex items-center mt-1">
               Saldo acumulado atual
             </p>
@@ -68,7 +74,7 @@ export default function DashboardPage() {
             <DollarSign className="h-4 w-4 text-emerald-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(metrics.receitasMes)}</div>
+            <div className="text-2xl font-bold">{formatCurrency(monthlyTransactions.reduce((acc, curr) => curr.tipo === 'receita' ? acc + Number(curr.valor) : acc, 0))}</div>
             <p className="text-xs text-muted-foreground flex items-center mt-1">
               <span className="text-emerald-500 flex items-center mr-1">
                 <ArrowUpRight className="h-3 w-3 mr-0.5" />
@@ -84,7 +90,7 @@ export default function DashboardPage() {
             <CreditCard className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(metrics.despesasMes)}</div>
+            <div className="text-2xl font-bold">{formatCurrency(monthlyTransactions.reduce((acc, curr) => curr.tipo === 'despesa' ? acc + Number(curr.valor) : acc, 0))}</div>
             <p className="text-xs text-muted-foreground flex items-center mt-1">
               <span className="text-destructive flex items-center mr-1">
                 <ArrowDownRight className="h-3 w-3 mr-0.5" />
@@ -97,8 +103,8 @@ export default function DashboardPage() {
 
       {/* Charts Section */}
       <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-5">
-        <OverviewChart transactions={metrics.monthlyTransactions} />
-        <CategoryChart transactions={metrics.monthlyTransactions} />
+        <OverviewChart transactions={monthlyTransactions} />
+        <CategoryChart transactions={monthlyTransactions} />
       </div>
 
       {/* Recent Transactions */}
@@ -109,11 +115,11 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
                 <div className="space-y-4">
-                    {metrics.recentTransactions.length === 0 ? (
+                    {recentTransactions.length === 0 ? (
                       <p className="text-muted-foreground text-center py-4">Nenhuma transação recente.</p>
                     ) : (
-                      metrics.recentTransactions.map((t) => (
-                          <div key={t.id} className="flex items-center justify-between border-b border-border/50 pb-4 last:border-0 last:pb-0">
+                      recentTransactions.map((t) => (
+                        <div key={t.id} className="flex items-center justify-between border-b border-border/50 pb-4 last:border-0 last:pb-0">
                               <div className="flex items-center gap-4">
                                   <div className={`h-10 w-10 rounded-full flex items-center justify-center ${t.tipo === 'despesa' ? 'bg-destructive/10 text-destructive' : 'bg-primary/10 text-primary'}`}>
                                       {t.tipo === 'despesa' ? <CreditCard size={20} /> : <DollarSign size={20} />}

@@ -20,7 +20,7 @@ export default function CategoriesPage() {
   const getCategoryTypeLabel = (tipo: string) => {
     switch (tipo) {
       case 'receita': return 'Receita';
-      case 'despesa': return 'Despesa';
+      case 'gasto': return 'Despesa';
       case 'ambos': return 'Ambos';
       default: return tipo;
     }
@@ -29,7 +29,7 @@ export default function CategoriesPage() {
   const getCategoryTypeColor = (tipo: string) => {
     switch (tipo) {
       case 'receita': return 'bg-primary/10 text-primary border-primary/20';
-      case 'despesa': return 'bg-destructive/10 text-destructive border-destructive/20';
+      case 'gasto': return 'bg-destructive/10 text-destructive border-destructive/20';
       case 'ambos': return 'bg-secondary text-secondary-foreground border-border';
       default: return 'bg-secondary text-secondary-foreground border-border';
     }

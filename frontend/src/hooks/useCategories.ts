@@ -4,14 +4,14 @@ import { supabase } from '@/lib/supabase';
 export interface Category {
   id: string;
   nome: string;
-  tipo: 'receita' | 'despesa' | 'ambos';
+  tipo: 'receita' | 'gasto' | 'ambos';
   cor: string;
   icone: string | null;
 }
 
 export interface CreateCategoryInput {
   nome: string;
-  tipo: 'receita' | 'despesa' | 'ambos';
+  tipo: 'receita' | 'gasto' | 'ambos';
   cor: string;
   icone?: string;
 }

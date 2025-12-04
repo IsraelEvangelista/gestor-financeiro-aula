@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Camera, Upload, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import axios from "axios";
+import { supabase } from "@/lib/supabase";
 
 export function OCRModal({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +24,10 @@ export function OCRModal({ children }: { children: React.ReactNode }) {
     setStatus("idle");
 
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error("Usuário não autenticado");
+      }
       // Convert to Base64
       const base64 = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
@@ -47,10 +52,10 @@ export function OCRModal({ children }: { children: React.ReactNode }) {
       const pureBase64 = base64Match[2]; // Pure base64 string without prefix
 
       await axios.post(webhookUrl, {
+        user_id: user.id,
         image: pureBase64,
         filename: file.name,
-        mimetype: mimeType,
-        timestamp: new Date().toISOString()
+        mimetype: mimeType
       });
 
       setStatus("success");

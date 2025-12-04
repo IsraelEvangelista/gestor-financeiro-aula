@@ -49,7 +49,11 @@ export function useTransactions() {
 
       if (fetchError) throw fetchError;
 
-      setTransactions((data || []) as unknown as TransactionDB[]);
+      const normalized = (data || []).map((t: any) => ({
+        ...t,
+        tipo: t.tipo === 'gasto' ? 'despesa' : t.tipo
+      })) as unknown as TransactionDB[];
+      setTransactions(normalized);
     } catch (err) {
       const error = err as Error;
       setError(error.message);
@@ -68,7 +72,9 @@ export function useTransactions() {
         .from('transacao')
         .insert({
           ...input,
-          user_id: user.id
+          tipo: input.tipo === 'despesa' ? 'gasto' : 'receita',
+          user_id: user.id,
+          source: 'manual'
         })
         .select(`
           id,

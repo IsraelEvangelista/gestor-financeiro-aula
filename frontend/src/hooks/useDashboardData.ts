@@ -55,7 +55,7 @@ export function useDashboardData() {
       }, 0) || 0;
 
       // 2. Buscar transações do mês atual para gráficos e métricas mensais
-      const { data: monthTransactions, error: monthTransError } = await supabase
+      const { data: monthTransactionsRaw, error: monthTransError } = await supabase
         .from('transacao')
         .select(`
           id,
@@ -72,6 +72,11 @@ export function useDashboardData() {
 
       if (monthTransError) throw monthTransError;
 
+      const monthTransactions = (monthTransactionsRaw || []).map((t: any) => ({
+        ...t,
+        tipo: t.tipo === 'gasto' ? 'despesa' : t.tipo
+      }));
+
       const receitasMes = monthTransactions?.reduce((acc, curr) => {
         return curr.tipo === 'receita' ? acc + Number(curr.valor) : acc;
       }, 0) || 0;
@@ -81,7 +86,7 @@ export function useDashboardData() {
       }, 0) || 0;
 
       // 3. Buscar transações recentes (últimas 5)
-      const { data: recentTransactions, error: recentTransError } = await supabase
+      const { data: recentTransactionsRaw, error: recentTransError } = await supabase
         .from('transacao')
         .select(`
           id,
@@ -96,6 +101,11 @@ export function useDashboardData() {
         .limit(5);
 
       if (recentTransError) throw recentTransError;
+
+      const recentTransactions = (recentTransactionsRaw || []).map((t: any) => ({
+        ...t,
+        tipo: t.tipo === 'gasto' ? 'despesa' : t.tipo
+      }));
 
       setMetrics({
         saldoTotal,

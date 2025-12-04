@@ -41,7 +41,7 @@ export function CreateCategoryModal({ children, onCategoryCreated, createCategor
   
   const [formData, setFormData] = useState<CreateCategoryInput>({
     nome: '',
-    tipo: 'despesa',
+    tipo: 'gasto',
     cor: '#3b82f6'
   });
 
@@ -58,7 +58,7 @@ export function CreateCategoryModal({ children, onCategoryCreated, createCategor
       // Limpar formulário
       setFormData({
         nome: '',
-        tipo: 'despesa',
+        tipo: 'gasto',
         cor: '#3b82f6'
       });
       
@@ -100,14 +100,14 @@ export function CreateCategoryModal({ children, onCategoryCreated, createCategor
             <Label htmlFor="type">Tipo</Label>
             <Select 
               value={formData.tipo}
-              onValueChange={(value: 'receita' | 'despesa' | 'ambos') => setFormData({ ...formData, tipo: value })}
+              onValueChange={(value: 'receita' | 'gasto' | 'ambos') => setFormData({ ...formData, tipo: value })}
             >
               <SelectTrigger className="bg-background/50">
                 <SelectValue placeholder="Selecione" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="receita">Receita</SelectItem>
-                <SelectItem value="despesa">Despesa</SelectItem>
+                <SelectItem value="gasto">Despesa</SelectItem>
                 <SelectItem value="ambos">Ambos</SelectItem>
               </SelectContent>
             </Select>

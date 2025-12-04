@@ -49,10 +49,11 @@ export function ManualEntryModal({ children, onTransactionCreated }: ManualEntry
         .insert({
           descricao: formData.description,
           valor: parseFloat(formData.amount),
-          tipo: formData.type,
+          tipo: formData.type === 'despesa' ? 'gasto' : 'receita',
           data: date.toISOString(),
           categoria_id: formData.categoryId,
-          user_id: user.id
+          user_id: user.id,
+          source: 'manual'
         });
 
       if (insertError) throw insertError;
@@ -76,9 +77,9 @@ export function ManualEntryModal({ children, onTransactionCreated }: ManualEntry
     }
   };
 
-  // Filtrar categorias por tipo
+  // Filtrar categorias por tipo (mapeando 'despesa' -> 'gasto')
   const filteredCategories = categories.filter(cat => 
-    cat.tipo === formData.type || cat.tipo === 'ambos'
+    cat.tipo === (formData.type === 'despesa' ? 'gasto' : 'receita') || cat.tipo === 'ambos'
   );
 
   return (
