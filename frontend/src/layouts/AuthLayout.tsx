@@ -21,8 +21,8 @@ export function AuthLayout({ children }: AuthLayoutProps) {
         {/* Logo */}
         <div className="flex flex-col items-center gap-2 animate-in fade-in slide-in-from-top-4 duration-700">
           <img 
-            src="/dashmaker_logo.png" 
-            alt="DashMaker Logo" 
+            src="/logo_gestor_fin.png" 
+            alt="Gestor Financeiro Logo" 
             className="h-16 w-auto drop-shadow-[0_0_15px_rgba(0,255,136,0.3)]"
           />
           <div className="text-center">

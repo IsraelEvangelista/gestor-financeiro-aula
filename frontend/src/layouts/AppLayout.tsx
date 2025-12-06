@@ -78,7 +78,7 @@ export default function AppLayout() {
             onClick={toggleCollapse}
             className="hidden lg:flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer focus:outline-none w-full"
           >
-            <img src="/dashmaker_logo.png" alt="Logo" className="h-8 w-auto flex-shrink-0" />
+            <img src="/logo_gestor_fin.png" alt="Logo" className="h-8 w-auto flex-shrink-0" />
             <span 
               className={cn(
                 "font-heading font-bold text-xl transition-all duration-300",
@@ -91,7 +91,7 @@ export default function AppLayout() {
           
           {/* Mobile only: static logo + close button */}
           <div className="flex lg:hidden items-center w-full">
-            <img src="/dashmaker_logo.png" alt="Logo" className="h-8 w-auto mr-3" />
+            <img src="/logo_gestor_fin.png" alt="Logo" className="h-8 w-auto mr-3" />
             <span className="font-heading font-bold text-xl">Gestor Financeiro</span>
             <Button variant="ghost" size="icon" className="ml-auto" onClick={toggleSidebar}>
               <X size={20} />
