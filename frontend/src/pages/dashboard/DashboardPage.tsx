@@ -19,7 +19,8 @@ function DashboardContent() {
     filteredTransactions, 
     isLoading,
     blockFilters,
-    chartFilters
+    chartFilters,
+    selectedYear
   } = useDashboard();
 
   if (isLoading) {
@@ -43,10 +44,13 @@ function DashboardContent() {
   const despesasMes = monthData.reduce((acc, curr) => curr.tipo === 'despesa' ? acc + Number(curr.valor) : acc, 0);
 
   // Month Label for cards (chart filter takes priority)
-  const selectedMonth = chartFilters.month || blockFilters.month;
-  const monthLabel = selectedMonth 
-    ? format(selectedMonth, "MMMM", { locale: ptBR })
-    : 'Mês Atual';
+  const chartMonth = chartFilters.month;
+  const blockMonthIdx = blockFilters.months.length === 1 ? blockFilters.months[0] : null;
+  const monthLabel = chartMonth 
+    ? format(chartMonth, "MMMM", { locale: ptBR })
+    : blockMonthIdx !== null
+      ? format(new Date(selectedYear, blockMonthIdx), "MMMM", { locale: ptBR })
+      : 'Mês Atual';
 
 
   return (

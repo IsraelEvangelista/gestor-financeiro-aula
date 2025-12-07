@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useMemo, useCallback, type ReactNode } from 'react';
 import { supabase } from '@/lib/supabase';
-import { startOfMonth, endOfMonth, isSameMonth, parseISO, setYear, setMonth, getMonth, getYear } from 'date-fns';
+import { isSameMonth, parseISO, getMonth, getYear } from 'date-fns';
 
 export interface Transaction {
   id: string;
