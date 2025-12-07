@@ -42,3 +42,22 @@ You `MUST` always use this tool when:
 - DER: `.bmad/output/der.md` (especificação detalhada e triggers)
 - EPICS: `.bmad/output/epics.md` (épicos ajustados para Supabase)
 - Migrações: `.bmad/output/migration_supabase.sql`, `patch_rls.sql`, `storage_setup.sql`
+
+## 06/12/2025 - Refatoração de Filtros do Dashboard e UX
+- **Filtros Avançados**: Implementados filtros aditivos em bloco (`FilterBlock`) e gráfico (`OverviewChart`).
+- **Seleção de Período**: 
+  - Adicionado suporte a **Ano Fiscal** (Seleção de ano completo).
+  - Componente `MultiSelect` para seleção de múltiplos meses.
+  - Dados agora são buscados por ano (`selectedYear`) em vez de janela móvel de 12 meses.
+- **Gráfico Interativo**:
+  - Clique nos **rótulos do eixo X** (meses) para filtrar.
+  - Implementação via event listeners nativos do DOM para garantir confiabilidade.
+  - Feedback visual (cursor pointer, hover effects) nos meses clicáveis.
+- **UX Geral**:
+  - `FilterBlock` responsivo com Grid Layout, colapsado por padrão.
+  - Badges de categoria coloridas para fácil distinção (Despesas: Vermelho, Receitas: Verde).
+  - Correção de bug "Tela Branca" (dependência `cmdk` faltante).
+- **Limpeza e Segurança**:
+  - Removida interface obsoleta 'Relatórios' para simplificar navegação.
+  - Verificação e blindagem de Upload de Avatar (Storage RLS).
+  - Atualização de `.gitignore` para padrões de segurança (exclusão de secrets/.env).

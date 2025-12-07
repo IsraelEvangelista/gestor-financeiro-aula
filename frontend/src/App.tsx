@@ -4,7 +4,6 @@ import AuthPage from "./pages/auth/AuthPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import RegisterPage from "./pages/register/RegisterPage";
-import ReportsPage from "./pages/reports/ReportsPage";
 import CategoriesPage from "./pages/categories/CategoriesPage";
 import SettingsPage from "./pages/settings/SettingsPage";
 
@@ -21,7 +20,6 @@ function App() {
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/reports" element={<ReportsPage />} />
           <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Route>

@@ -29,7 +29,13 @@ export function useRecentTransactions() {
         .order('data', { ascending: false })
         .limit(5)
       if (error) throw error
-      setTransactions((data || []) as any)
+      
+      const normalizedData = (data || []).map((t: any) => ({
+        ...t,
+        tipo: t.tipo === 'gasto' ? 'despesa' : t.tipo
+      }))
+      
+      setTransactions(normalizedData as any)
     } catch (e: any) {
       setError(e.message)
     } finally {

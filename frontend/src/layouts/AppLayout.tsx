@@ -3,7 +3,6 @@ import { Link, useLocation, Outlet, useNavigate } from "react-router-dom";
 import { 
   LayoutDashboard, 
   Receipt, 
-  FileText, 
   Settings, 
   Menu, 
   X, 
@@ -44,7 +43,7 @@ export default function AppLayout() {
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
     { icon: Receipt, label: "Registro", path: "/register" },
     { icon: Tags, label: "Categorias", path: "/categories" },
-    { icon: FileText, label: "Relatórios", path: "/reports" },
+    { icon: Tags, label: "Categorias", path: "/categories" },
     { icon: Settings, label: "Configurações", path: "/settings" },
   ];
 
