@@ -10,6 +10,7 @@ export function OCRModal({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [source, setSource] = useState<"Upload Arquivo" | "Câmera">("Upload Arquivo");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +56,8 @@ export function OCRModal({ children }: { children: React.ReactNode }) {
         user_id: user.id,
         image: pureBase64,
         filename: file.name,
-        mimetype: mimeType
+        mimetype: mimeType,
+        source: source
       });
 
       setStatus("success");
@@ -70,6 +72,17 @@ export function OCRModal({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleUploadClick = (src: "Upload Arquivo" | "Câmera") => {
+    setSource(src);
+    // Add a small timeout to ensure state update before click, though in React 18+ batching might handle it, 
+    // but explicit ref click is sync. However, state set is async. 
+    // Better to use useEffect or just accept that for this simple case it might be mostly fine, 
+    // or wrap the click in a setTimeout(0).
+    setTimeout(() => {
+        fileInputRef.current?.click();
+    }, 0);
   };
 
   return (
@@ -96,7 +109,7 @@ export function OCRModal({ children }: { children: React.ReactNode }) {
             <Button 
               variant="outline" 
               className="h-24 flex flex-col gap-2 border-dashed border-2 hover:border-primary hover:bg-primary/5"
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => handleUploadClick("Upload Arquivo")}
               disabled={isLoading}
             >
               <Upload size={24} />
@@ -106,7 +119,7 @@ export function OCRModal({ children }: { children: React.ReactNode }) {
             <Button 
               variant="outline" 
               className="h-24 flex flex-col gap-2 border-dashed border-2 hover:border-primary hover:bg-primary/5"
-              onClick={() => fileInputRef.current?.click()} // On mobile this triggers camera option
+              onClick={() => handleUploadClick("Câmera")} // On mobile this triggers camera option
               disabled={isLoading}
             >
               <Camera size={24} />

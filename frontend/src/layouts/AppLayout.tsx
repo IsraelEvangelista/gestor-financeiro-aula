@@ -43,7 +43,6 @@ export default function AppLayout() {
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
     { icon: Receipt, label: "Registro", path: "/register" },
     { icon: Tags, label: "Categorias", path: "/categories" },
-    { icon: Tags, label: "Categorias", path: "/categories" },
     { icon: Settings, label: "Configurações", path: "/settings" },
   ];
 
